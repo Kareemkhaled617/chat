@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mafqud_project/screens/chat/screens/home_screen.dart';
 
+import '../main.dart';
 import 'homepage.dart';
 
 class Login extends StatefulWidget {
@@ -10,23 +11,24 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-   String? _email;
-   String? _password;
+  String? _email;
+  String? _password;
 
   @override
   Widget build(BuildContext context) {
+    mq = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepPurple,
-        title: Text('Login Form'),
+        title: const Text('Login Form'),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(vertical: 50, horizontal: 20),
+        padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
         child: Column(
           children: <Widget>[
             TextField(
               decoration: InputDecoration(
-                prefixIcon: Icon(Icons.email_outlined),
+                prefixIcon: const Icon(Icons.email_outlined),
                 hintText: 'Your Email',
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(22.0)),
@@ -35,12 +37,12 @@ class _LoginState extends State<Login> {
                 _email = value;
               }),
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             TextField(
               decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.lock_outline),
+                  prefixIcon: const Icon(Icons.lock_outline),
                   hintText: 'Password',
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(22.0))),
@@ -48,22 +50,23 @@ class _LoginState extends State<Login> {
                 _password = value;
               }),
             ),
-            SizedBox(
+            const SizedBox(
               height: 150,
             ),
-           ElevatedButton(
-
+            ElevatedButton(
                 onPressed: () {
                   FirebaseAuth.instance
                       .signInWithEmailAndPassword(
                           email: _email!, password: _password!)
-                      .then((user) => Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => HomeScreen())))
+                      .then((user) => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const HomeScreen())))
                       .catchError((e) {
                     print(e);
                   });
                 },
-                child: Text(
+                child: const Text(
                   'LOGIN',
                   style: TextStyle(fontSize: 18.0),
                 )),

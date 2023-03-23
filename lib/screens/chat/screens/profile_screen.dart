@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mafqud_project/screens/confirmation.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 import '../../../main.dart';
@@ -35,7 +36,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    mq = MediaQuery.of(context).size;
     return GestureDetector(
       // for hiding keyboard
       onTap: () => FocusScope.of(context).unfocus(),
@@ -98,12 +98,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
         body: Form(
           key: _formKey,
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: mq.width * .05),
+            padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .05),
             child: SingleChildScrollView(
               child: Column(
                 children: [
                   // for adding some space
-                  SizedBox(width: mq.width, height: mq.height * .03),
+                  SizedBox(width: MediaQuery.of(context).size.width, height: MediaQuery.of(context).size.height * .03),
 
                   //user profile picture
                   Stack(
@@ -115,20 +115,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           //local image
                           ClipRRect(
                               borderRadius:
-                                  BorderRadius.circular(mq.height * .1),
+                                  BorderRadius.circular(MediaQuery.of(context).size.height * .1),
                               child: Image.file(File(_image!),
-                                  width: mq.height * .2,
-                                  height: mq.height * .2,
+                                  width: MediaQuery.of(context).size.height * .2,
+                                  height: MediaQuery.of(context).size.height * .2,
                                   fit: BoxFit.cover))
                           :
 
                           //image from server
                           ClipRRect(
                               borderRadius:
-                                  BorderRadius.circular(mq.height * .1),
+                                  BorderRadius.circular(MediaQuery.of(context).size.height * .1),
                               child: CachedNetworkImage(
-                                width: mq.height * .2,
-                                height: mq.height * .2,
+                                width: MediaQuery.of(context).size.height * .2,
+                                height: MediaQuery.of(context).size.height * .2,
                                 fit: BoxFit.cover,
                                 imageUrl: widget.user.image,
                                 errorWidget: (context, url, error) =>
@@ -156,7 +156,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
 
                   // for adding some space
-                  SizedBox(height: mq.height * .03),
+                  SizedBox(height: MediaQuery.of(context).size.height * .03),
 
                   // user email label
                   Text(widget.user.email,
@@ -164,7 +164,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           const TextStyle(color: Colors.black54, fontSize: 16)),
 
                   // for adding some space
-                  SizedBox(height: mq.height * .05),
+                  SizedBox(height: MediaQuery.of(context).size.height * .05),
 
                   // about input field
                   TextFormField(
@@ -182,7 +182,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
 
                   // for adding some space
-                  SizedBox(height: mq.height * .02),
+                  SizedBox(height: MediaQuery.of(context).size.height * .02),
 
                   // name input field
                   TextFormField(
@@ -200,7 +200,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
 
                   // for adding some space
-                  SizedBox(height: mq.height * .02),
+                  SizedBox(height: MediaQuery.of(context).size.height * .02),
 
                   // about input field
                   TextFormField(
@@ -218,20 +218,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
 
                   // for adding some space
-                  SizedBox(height: mq.height * .05),
+                  SizedBox(height: MediaQuery.of(context).size.height * .05),
 
                   // update profile button
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromRGBO(59, 92, 222, 1.0),
+                        backgroundColor: const Color.fromRGBO(59, 92, 222, 1.0),
                         shape: const StadiumBorder(),
-                        minimumSize: Size(mq.width * .5, mq.height * .06)),
+                        minimumSize: Size(MediaQuery.of(context).size.width * .5, MediaQuery.of(context).size.height * .06)),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         _formKey.currentState!.save();
                         APIs.updateUserInfo().then((value) {
-                          Dialogs.showSnackbar(
-                              context, 'Profile Updated Successfully!');
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => const Confirmation()));
                         });
                       }
                     },
@@ -279,7 +281,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           return ListView(
             shrinkWrap: true,
             padding:
-                EdgeInsets.only(top: mq.height * .03, bottom: mq.height * .05),
+                EdgeInsets.only(top: MediaQuery.of(context).size.height * .03, bottom: MediaQuery.of(context).size.height * .05),
             children: [
               //pick profile picture label
               const Text('Pick Profile Picture',
@@ -287,7 +289,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
 
               //for adding some space
-              SizedBox(height: mq.height * .02),
+              SizedBox(height: MediaQuery.of(context).size.height * .02),
 
               //buttons
               Row(
@@ -298,7 +300,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,
                           shape: const CircleBorder(),
-                          fixedSize: Size(mq.width * .3, mq.height * .15)),
+                          fixedSize: Size(MediaQuery.of(context).size.width * .3, MediaQuery.of(context).size.height * .15)),
                       onPressed: () async {
                         final ImagePicker picker = ImagePicker();
 
@@ -323,7 +325,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,
                           shape: const CircleBorder(),
-                          fixedSize: Size(mq.width * .3, mq.height * .15)),
+                          fixedSize: Size(MediaQuery.of(context).size.width * .3, MediaQuery.of(context).size.height * .15)),
                       onPressed: () async {
                         final ImagePicker picker = ImagePicker();
 

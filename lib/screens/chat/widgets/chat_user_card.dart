@@ -29,9 +29,9 @@ class _ChatUserCardState extends State<ChatUserCard> {
   Widget build(BuildContext context) {
     return Card(
       color: Colors.grey.shade500,
-      margin: EdgeInsets.symmetric(horizontal: mq.width * .04, vertical: 4),
+      margin: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
       elevation: 0.5,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
       child: InkWell(
           onTap: () {
             //for navigating to chat screen
@@ -48,59 +48,76 @@ class _ChatUserCardState extends State<ChatUserCard> {
                   data?.map((e) => Message.fromJson(e.data())).toList() ?? [];
               if (list.isNotEmpty) _message = list[0];
 
-              return ListTile(
-                //user profile picture
-                leading: InkWell(
-                  onTap: () {
-                    showDialog(
-                        context: context,
-                        builder: (_) => ProfileDialog(user: widget.user));
-                  },
-                  child:widget.user.image =='null'?const CircleAvatar(backgroundColor: Color.fromRGBO(59, 92, 222, 1.0),child: Icon(Icons.person)): ClipRRect(
-                    borderRadius: BorderRadius.circular(mq.height * .03),
-                    child: CachedNetworkImage(
-                      width: mq.height * .055,
-                      height: mq.height * .055,
-                      imageUrl: widget.user.image,
-                      errorWidget: (context, url, error) => const CircleAvatar(
-                          child: Icon(CupertinoIcons.person)),
-                    ),
-                  ),
-                ),
-
-                //user name
-                title: Text(widget.user.name),
-
-                //last message
-                subtitle: Text(
-                    _message != null
-                        ? _message!.type == Type.image
-                            ? 'image'
-                            : _message!.msg
-                        : widget.user.about,
-                    maxLines: 1),
-
-                //last message time
-                trailing: _message == null
-                    ? null //show nothing when no message is sent
-                    : _message!.read.isEmpty &&
-                            _message!.fromId != APIs.user.uid
-                        ?
-                        //show for unread message
-                        Container(
-                            width: 15,
-                            height: 15,
-                            decoration: BoxDecoration(
-                                color: Colors.greenAccent.shade400,
-                                borderRadius: BorderRadius.circular(10)),
-                          )
-                        :
-                        //message sent time
-                        Text(
-                            MyDateUtil.getLastMessageTime(
-                                context: context, time: _message!.sent),
-                            style: const TextStyle(color: Colors.black54),
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                child: ListTile(
+                  //user profile picture
+                  leading: InkWell(
+                    onTap: () {
+                      showDialog(
+                          context: context,
+                          builder: (_) => ProfileDialog(user: widget.user));
+                    },
+                    child: widget.user.image == 'null'
+                        ? const CircleAvatar(
+                            backgroundColor: Color.fromRGBO(59, 92, 222, 1.0),
+                            child: Icon(Icons.person))
+                        : ClipRRect(
+                            borderRadius:
+                                BorderRadius.circular(mq.height * .03),
+                            child: CachedNetworkImage(
+                              width: mq.height * .055,
+                              height: mq.height * .055,
+                              imageUrl: widget.user.image,
+                              errorWidget: (context, url, error) =>
+                                  const CircleAvatar(
+                                      child: Icon(
+                                CupertinoIcons.person,
+                                color: Colors.black,
+                              )),
+                            ),
                           ),
+                  ),
+
+                  //user name
+                  title: Text(
+                    widget.user.name,
+                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                  ),
+
+                  //last message
+                  subtitle: Text(
+                      _message != null
+                          ? _message!.type == Type.image
+                              ? 'image'
+                              : _message!.msg
+                          : widget.user.about,
+                      maxLines: 1,
+                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                  ),
+
+                  //last message time
+                  trailing: _message == null
+                      ? null //show nothing when no message is sent
+                      : _message!.read.isEmpty &&
+                              _message!.fromId != APIs.user.uid
+                          ?
+                          //show for unread message
+                          Container(
+                              width: 15,
+                              height: 15,
+                              decoration: BoxDecoration(
+                                  color: Colors.greenAccent.shade400,
+                                  borderRadius: BorderRadius.circular(10)),
+                            )
+                          :
+                          //message sent time
+                          Text(
+                              MyDateUtil.getLastMessageTime(
+                                  context: context, time: _message!.sent),
+                              style: const TextStyle(color: Colors.black),
+                            ),
+                ),
               );
             },
           )),

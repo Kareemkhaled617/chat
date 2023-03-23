@@ -12,6 +12,7 @@ class ChatUser {
     required this.phone,
     required this.idNumber,
   });
+
   late String image;
   late String about;
   late String name;

@@ -60,7 +60,7 @@ class _ChatScreenState extends State<ChatScreen> {
               flexibleSpace: _appBar(),
             ),
 
-            backgroundColor: const Color.fromARGB(255, 234, 248, 255),
+            backgroundColor:  Colors.white,
 
             //body
             body: Column(
@@ -140,12 +140,7 @@ class _ChatScreenState extends State<ChatScreen> {
   // app bar widget
   Widget _appBar() {
     return InkWell(
-        onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (_) => ViewProfileScreen(user: widget.user)));
-        },
+
         child: StreamBuilder(
             stream: APIs.getUserInfo(widget.user),
             builder: (context, snapshot) {
@@ -156,10 +151,12 @@ class _ChatScreenState extends State<ChatScreen> {
               return Row(
                 children: [
                   //back button
-                  IconButton(
-                      onPressed: () => Navigator.pop(context),
-                      icon:
-                          const Icon(Icons.arrow_back, color: Colors.black54)),
+                  Center(
+                    child: IconButton(
+                        onPressed: () => Navigator.pop(context),
+                        icon:
+                            const Icon(Icons.arrow_circle_left_outlined, color: Colors.black54,size: 35,)),
+                  ),
 
                   //user profile picture
                   // widget.user.image == 'null'
@@ -191,11 +188,13 @@ class _ChatScreenState extends State<ChatScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       //user name
-                      Text(list.isNotEmpty ? list[0].name : widget.user.name,
-                          style: const TextStyle(
-                              fontSize: 16,
-                              color: Colors.black87,
-                              fontWeight: FontWeight.w500)),
+                      Flexible(
+                        child: Text(list.isNotEmpty ? list[0].name : widget.user.name,
+                            style: const TextStyle(
+                                fontSize: 25,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w700)),
+                      ),
 
                       //for adding some space
                       const SizedBox(height: 2),
@@ -241,7 +240,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         setState(() => _showEmoji = !_showEmoji);
                       },
                       icon: const Icon(Icons.emoji_emotions,
-                          color: Colors.blueAccent, size: 25)),
+                          color: Color.fromRGBO(59, 92, 222, 1.0), size: 25)),
 
                   Expanded(
                       child: TextField(
@@ -253,7 +252,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     },
                     decoration: const InputDecoration(
                         hintText: 'Type Something...',
-                        hintStyle: TextStyle(color: Colors.blueAccent),
+                        hintStyle: TextStyle(color: Colors.black),
                         border: InputBorder.none),
                   )),
 
@@ -275,7 +274,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         }
                       },
                       icon: const Icon(Icons.image,
-                          color: Colors.blueAccent, size: 26)),
+                          color: Color.fromRGBO(59, 92, 222, 1.0), size: 26)),
 
                   //take image from camera button
                   IconButton(
@@ -295,7 +294,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         }
                       },
                       icon: const Icon(Icons.camera_alt_rounded,
-                          color: Colors.blueAccent, size: 26)),
+                          color:Color.fromRGBO(59, 92, 222, 1.0), size: 26)),
 
                   //adding some space
                   SizedBox(width: mq.width * .02),

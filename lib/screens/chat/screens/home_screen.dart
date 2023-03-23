@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 import '../../../main.dart';
 import '../api/apis.dart';
@@ -21,7 +22,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<ChatUser> _list = [];
-
+  int _currentIndex=0;
   final List<ChatUser> _searchList = [];
 
   bool _isSearching = false;
@@ -66,7 +67,12 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: const Color.fromRGBO(59, 92, 222, 1.0),
-            leading: const Icon(Icons.menu),
+            leading: const Icon(
+              Icons.menu,
+              size: 30,
+              color: Colors.black,
+            ),
+            centerTitle: true,
             title: _isSearching
                 ? TextField(
                     decoration: const InputDecoration(
@@ -87,34 +93,32 @@ class _HomeScreenState extends State<HomeScreen> {
                       }
                     },
                   )
-                : const Text('Messages'),
+                : const Text(
+                    'Messages',
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.black,
+                    ),
+                  ),
             actions: [
               IconButton(
-                  onPressed: () {
-                    setState(() {
-                      _isSearching = !_isSearching;
-                    });
-                  },
-                  icon: Icon(_isSearching
-                      ? CupertinoIcons.clear_circled_solid
-                      : Icons.search)),
-              IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => ProfileScreen(user: APIs.me)));
-                  },
-                  icon: const Icon(Icons.person,))
+                  onPressed: () {},
+                  icon: const Icon(
+                    size: 30,
+                    Icons.notifications_none_outlined,
+                    color: Colors.black,
+                  ))
             ],
           ),
           floatingActionButton: Padding(
             padding: const EdgeInsets.only(bottom: 10),
             child: FloatingActionButton(
+              backgroundColor: const Color.fromRGBO(59, 92, 222, 1.0),
                 onPressed: () {
                   _addChatUserDialog();
                 },
-                child: const Icon(Icons.add_comment_rounded)),
+                child: const Icon(Icons.add_comment_rounded,color: Colors.black,)),
           ),
           body: StreamBuilder(
             stream: APIs.getMyUsersId(),
@@ -167,6 +171,27 @@ class _HomeScreenState extends State<HomeScreen> {
               }
             },
           ),
+          bottomNavigationBar: Container(
+            width: double.infinity,
+            color: const Color.fromRGBO(59, 92, 222, 1.0),
+
+            child: SalomonBottomBar(
+
+              currentIndex: _currentIndex,
+              onTap: (i) => setState(() => _currentIndex = i),
+              items: [
+                /// Home
+                SalomonBottomBarItem(
+                  icon: const Icon(Icons.home,size: 30,),
+                  title: const Text(""),
+                  selectedColor: Colors.black,
+                ),
+
+
+
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -189,14 +214,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     color: Colors.blue,
                     size: 28,
                   ),
-                  Text('  Add User')
+                  Text('Add User')
                 ],
               ),
               content: TextFormField(
                 maxLines: null,
                 onChanged: (value) => email = value,
                 decoration: InputDecoration(
-                    hintText: 'Id',
+                    hintText: 'username',
                     prefixIcon: const Icon(Icons.email, color: Colors.blue),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15))),
@@ -207,7 +232,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       Navigator.pop(context);
                     },
                     child: const Text('Cancel',
-                        style: TextStyle(color: Color.fromRGBO(59, 92, 222, 1.0), fontSize: 16))),
+                        style: TextStyle(
+                            color: Color.fromRGBO(59, 92, 222, 1.0),
+                            fontSize: 16))),
                 MaterialButton(
                     onPressed: () async {
                       Navigator.pop(context);
@@ -222,7 +249,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                     child: const Text(
                       'Add',
-                      style: TextStyle(color: Color.fromRGBO(59, 92, 222, 1.0), fontSize: 16),
+                      style: TextStyle(
+                          color: Color.fromRGBO(59, 92, 222, 1.0),
+                          fontSize: 16),
                     ))
               ],
             ));

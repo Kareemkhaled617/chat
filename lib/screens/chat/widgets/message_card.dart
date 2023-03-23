@@ -52,19 +52,18 @@ class _MessageCardState extends State<MessageCard> {
             margin: EdgeInsets.symmetric(
                 horizontal: mq.width * .04, vertical: mq.height * .01),
             decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 221, 245, 255),
-                border: Border.all(color: Colors.lightBlue),
-                //making borders curved
-                borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30),
-                    bottomRight: Radius.circular(30))),
+              color: const Color.fromRGBO(59, 92, 222, 1.0),
+              border: Border.all(color: Colors.white),
+            ),
             child: widget.message.type == Type.text
                 ?
                 //show text
                 Text(
                     widget.message.msg,
-                    style: const TextStyle(fontSize: 15, color: Colors.black87),
+                    style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black),
                   )
                 :
                 //show image
@@ -128,23 +127,23 @@ class _MessageCardState extends State<MessageCard> {
           child: Container(
             padding: EdgeInsets.all(widget.message.type == Type.image
                 ? mq.width * .03
-                : mq.width * .04),
+                : mq.width * .05),
             margin: EdgeInsets.symmetric(
                 horizontal: mq.width * .04, vertical: mq.height * .01),
             decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 218, 255, 176),
-                border: Border.all(color: Colors.lightGreen),
-                //making borders curved
-                borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30),
-                    bottomLeft: Radius.circular(30))),
+              color: Colors.grey.shade400,
+              border: Border.all(color: Colors.white),
+              //making borders curved
+            ),
             child: widget.message.type == Type.text
                 ?
                 //show text
                 Text(
                     widget.message.msg,
-                    style: const TextStyle(fontSize: 15, color: Colors.black87),
+                    style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black),
                   )
                 :
                 //show image
